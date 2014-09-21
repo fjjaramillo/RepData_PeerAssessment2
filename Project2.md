@@ -1,8 +1,3 @@
----
-output: 
-  html_document:
-    keep_md: true
----
 ***
 #Basic analysis of weather events and their impact in public health and in the economy across the United States from 1950 to 2011.
 ***
@@ -35,7 +30,8 @@ The results show Tornado is the most harmful weather event with respect to popul
 
 ##Preliminar
 This preliminary section includes an auxiliary piece of code whose unique purpose is to format the text comments on the report. That code is original from Leek, Peng, Caffo on the Data Science JHU/Coursera program.
-```{r, echo =TRUE}
+
+```r
 #    Loading library and functions to format comments 
 library(knitr)
 library(stringr)
@@ -58,7 +54,20 @@ nicecomment("Lines 15 to 22 were taken from the script: 'submitscript1.R'",
             "All the code relevant to the objectives of the assignment is original."
 ,skip_after=TRUE)
 }
- 
+```
+
+```
+## | The piece of code for the function 'nicecomment' was copied from
+## | pretty_out - 'submitscript1.'; which is a submission script for a
+## | previous assignment.
+## 
+## | I guess I have to formally cite here:
+## 
+## | Lines 15 to 22 were taken from the script: 'submitscript1.R' belonging
+## | to Leek, Peng, Caffo on the Data Science JHU/Coursera program. It is
+## | used here as an auxiliary function, only to format the text of the
+## | comments. All the code relevant to the objectives of the assignment is
+## | original.
 ```
 
 
@@ -72,7 +81,8 @@ This specific analysis has been structured based on the two main questions. So,i
 ###Data Processing: Section: Loading the data
 
 
-```{r, echo =TRUE}
+
+```r
 #
 #    Section: Loading the data
 #         1. Creates a folder RepRes-proj2 in your working directory.
@@ -83,14 +93,44 @@ This specific analysis has been structured based on the two main questions. So,i
 
 
 library(R.utils)
+```
+
+```
+## Loading required package: R.oo
+## Loading required package: R.methodsS3
+## R.methodsS3 v1.6.1 (2014-01-04) successfully loaded. See ?R.methodsS3 for help.
+## R.oo v1.18.0 (2014-02-22) successfully loaded. See ?R.oo for help.
+## 
+## Attaching package: 'R.oo'
+## 
+## The following objects are masked from 'package:methods':
+## 
+##     getClasses, getMethods
+## 
+## The following objects are masked from 'package:base':
+## 
+##     attach, detach, gc, load, save
+## 
+## R.utils v1.33.0 (2014-08-24) successfully loaded. See ?R.utils for help.
+## 
+## Attaching package: 'R.utils'
+## 
+## The following object is masked from 'package:utils':
+## 
+##     timestamp
+## 
+## The following objects are masked from 'package:base':
+## 
+##     cat, commandArgs, getOption, inherits, isOpen, parse, warnings
+```
+
+```r
 if(!file.exists("./RepData-proj2")){dir.create("./RepData-proj2")}
 fileUrl <- "http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
 download.file(fileUrl,destfile="./RepData-proj2/data.bz2")
 bunzip2("./RepData-proj2/data.bz2", destname=gsub("[.]bz2$", "", "./RepData-proj2/data.csv"), overwrite=TRUE, remove=FALSE)
 
 data <- read.csv("./RepData-proj2/data.csv",header = TRUE, sep = ",", quote = "\"")
-
-
 ```
 
 
@@ -138,8 +178,8 @@ In order to answer this question the following Sections are used:
 ####Section 1.1: 
 ####Creating a new sumarized data set 
 
-```{r, echo =TRUE}
 
+```r
 #    Section 1.1: Creating a new sumarized data set 
 #         1. this code calculates the sum of fatalities and injuries 
 #          by event type groups
@@ -161,7 +201,8 @@ Nevertheless, in the historical data there are Event Names not contained in that
 
 The code in this Section #2 adds a new column with the standard current event name as per the table 2.1.1 to the data set.
 
-```{r, echo =TRUE}
+
+```r
 #    Section 1.2: adding a new column with standard event type names 
 #         based in non standard historical event type names
 
@@ -395,7 +436,8 @@ colnames(dataph)[5] <- "stdevtype"
 ####Summarizing/aggregating number of fatalities and injuries by event type
 
 
-```{r, echo =TRUE}
+
+```r
 #    Section 1.3: summarizing/aggregating number of fatalities and injuries 
 #         by the new standardized event type
 
@@ -410,7 +452,8 @@ The transformation occur in the format of the data. That is in order to meet the
 
 
 
-```{r, echo =TRUE}
+
+```r
 #
 #    Section 1.4: Data set format change for plotting graph 
 #         1. The data is separated in two matrices (dataf and fatai) 
@@ -433,14 +476,14 @@ dimnames(datai) <- list(dataph$stdevtype, "injuries")
 datai <- datai[order(datai[,1]),] 
 datai<-t(datai)
 datai <- datai[,c((length(datai[1,])-10):(length(datai[1,])))]
-
 ```
 
 ####Section 1.5: 
 ####Plotting graphs
 
 
-```{r, echo =TRUE}
+
+```r
 #    Section 1.5: Plotting graphs
 {
 par(las=1) # make label text perpendicular to axis
@@ -457,10 +500,13 @@ barplot(datai, main="Graph #2: Total weather related injuries in the US\n by the
 }
 ```
 
+![plot of chunk unnamed-chunk-7](./Project2_files/figure-html/unnamed-chunk-71.png) ![plot of chunk unnamed-chunk-7](./Project2_files/figure-html/unnamed-chunk-72.png) 
+
 ####Section 1.6: Preparing results for printing
 In this step the list of results get ordered.
 
-```{r, echo =TRUE}
+
+```r
 #    Section 1.6: Preparing results for printing
 
 tdataf <- t(dataf)
@@ -474,8 +520,8 @@ ievents <- labels(tdatai[order(-tdatai[,1]),])
 
 ####Section 1.7: RESULTS (Printing results)
 
-```{r, echo =TRUE}
 
+```r
 #    Section 1.7: Printing Results
 title <- paste ("***  RESULTS  ***")
 question1 <- paste("Question #1. Across the United States, which types of 
@@ -491,7 +537,24 @@ result2 <- paste("As shown in the Graph #2, In terms of Injuries, the 10 most ha
 nicecomment(question1)
 nicecomment(result1)
 nicecomment(result2)}
+```
 
+```
+## | *** RESULTS ***
+## 
+## | Question #1. Across the United States, which types of events (as
+## | indicated in the 'EVTYPE' variable) are most harmful with respect to
+## | population health?
+## 
+## | As shown in the Graph #1, in terms of Fatalities, the 10 most harmful
+## | weather event types across the US between 1950 and 2011 are: Tornado,
+## | Excessive Heat, Heat, Flash Flood, Lightning, Thunderstorm Wind, Rip
+## | Current, Flood, High Wind, Extreme Cold / Windchill, Avalanche
+## 
+## | As shown in the Graph #2, In terms of Injuries, the 10 most harmful
+## | weather event types across the US between 1950 and 2011 are: Tornado,
+## | Thunderstorm Wind, Flood, Excessive Heat, Lightning, Heat, Ice Storm,
+## | High Wind, Flash Flood, Wildfire, Hail
 ```
 
 
@@ -510,7 +573,8 @@ In order to answer this question the following Sections are used:
 ####Section 2.1: 
 ####Creating a new sumarized data set 
 
-```{r, echo =TRUE}
+
+```r
 #    Section 2.1: Creating a new sumarized data set 
 #         1. this code calculates the sum of fatalities and injuries 
 #              on event type groups
@@ -530,7 +594,6 @@ data[,40]<- (data[,25] * data[,38]) + (data[,27] * data[,39])
 
 datae <- ddply(data,.(EVTYPE),summarize,econdam=sum(V40))
 datae <- datae[datae$econdam > 0 & !is.na(datae$econdam),]
-
 ```
 
 ####Section 2.2: 
@@ -541,7 +604,8 @@ Nevertheless, in the historical data there are Event Names not contained in that
 
 The code in this Section #2 adds a new column with the standard current event name as per the table 2.1.1 to the data set.
 
-```{r, echo =TRUE}
+
+```r
 #    Section 2.2: adding a new column with standard event type names 
 #         based in non standard historical event type names
 
@@ -587,7 +651,8 @@ colnames(datae)[3] <- "stdevtype"
 ####Section 2.3: 
 ####Summarizing/aggregating total economic damages by event type
 
-```{r, echo =TRUE}
+
+```r
 #    Section 2.3: Summarizing/aggregating total economic damages by event type
 
 datae<-ddply(datae,.(stdevtype),summarize,econdam=sum(econdam))
@@ -600,7 +665,8 @@ The transformation occur in the format of the data. That is in order to meet the
 
 
 
-```{r, echo =TRUE}
+
+```r
 #
 #    Section 2.4: Data set format change for plotting graph 
 #         1. The data is separated into a new matrix (datae) 
@@ -621,7 +687,8 @@ dataed <- dataed[,c((length(dataed[1,])-10):(length(dataed[1,])))]
 ####Plotting graph
 
 
-```{r, echo =TRUE}
+
+```r
 #    Section 2.5: Plotting graph
 
 par(las=1) # make label text perpendicular to axis
@@ -632,12 +699,15 @@ barplot(dataed, main="Graph #3: Total weather related economical damage across t
          ,horiz=TRUE,xlim=c(0,2000))
 ```
 
+![plot of chunk unnamed-chunk-14](./Project2_files/figure-html/unnamed-chunk-14.png) 
+
 
 ####Section 2.6: 
 ####Preparing results for printing
 In this step the list of results get ordered.
 
-```{r, echo =TRUE}
+
+```r
 #    Section 2.6: Preparing results for printing 
 tdataed <- t(dataed)
 tdataed <- t(tdataed)
@@ -646,7 +716,8 @@ eevents <- labels(tdataed[order(-tdataed[,1]),])
 
 ####Section 2.7: RESULTS (Printing results)
 
-```{r, echo =TRUE}
+
+```r
 #    Section 2.7: Printing Results
 question1 <- paste("Question #2. Across the United States, which types of events have the greatest economic consequences?")
 result1 <- paste("As shown in the Graph #3, in terms of economical damage to property and crops, the 10 most harmful weather event types across the US between 1950 and 2011 are: ",paste(eevents,collapse=", "))
@@ -654,6 +725,19 @@ result1 <- paste("As shown in the Graph #3, in terms of economical damage to pro
 {nicecomment(title)
 nicecomment(question1)
 nicecomment(result1)}
+```
+
+```
+## | *** RESULTS ***
+## 
+## | Question #2. Across the United States, which types of events have the
+## | greatest economic consequences?
+## 
+## | As shown in the Graph #3, in terms of economical damage to property and
+## | crops, the 10 most harmful weather event types across the US between
+## | 1950 and 2011 are: Tornado, Heavy Rain, High Wind, Hurricane (Typhoon),
+## | Frost/Freeze, Winter Weather, Winter Storm, Flood, Wildfire, Cold/Wind
+## | Chill, Flash Flood
 ```
 
 
